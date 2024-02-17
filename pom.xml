@@ -13,7 +13,7 @@
   </properties>
   <dependencies>
     <dependency>
-      <groupId>edu.eci.tdd</groupId>
+      <groupId>edu.eci.cvds</groupId>
       <artifactId>aerodescuentos</artifactId>
       <version>1.0.0</version>
     </dependency>
