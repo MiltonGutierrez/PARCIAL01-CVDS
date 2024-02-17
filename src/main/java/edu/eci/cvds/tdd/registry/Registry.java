@@ -1,18 +1,18 @@
 package edu.eci.cvds.tdd.registry;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Registry {
 
-    private ArrayList<Person> people;
+    private HashSet<Integer> IDVotes;
 
     public Registry(){
-        people = new ArrayList<>();
+        IDVotes = new HashSet<>();
     }
 
     public RegisterResult registerVoter(Person p) {
         // Verificar si la persona ya ha votado antes
-        if (hasVotedBefore(p)) {
+        if (hasVotedBefore(p.getId())) {
             return RegisterResult.DUPLICATED;
         }
 
@@ -22,30 +22,22 @@ public class Registry {
         }
 
         // Verificar si la persona es menor de edad
-        if (p.getAge() < 18) {
+        if (p.getAge() < 18 && p.getAge() >= 0) {
             return RegisterResult.UNDERAGE;
         }
 
         // Verificar si la edad de la persona es inválida
-        if (p.getAge() < 0) {
+        if (p.getAge() < 0 | p.getAge() >= 135) {
             return RegisterResult.INVALID_AGE;
         }
 
-        // Registrar a la persona y marcarla como que ya ha votado
-        people.add(p);
-        //p.setHasVoted(true);
+        IDVotes.add(p.getId());
 
         // Retornar que el registro fue válido
         return RegisterResult.VALID;
     }
 
-    private boolean hasVotedBefore(Person p) {
-        /*Verificar si la persona ya está en la lista y ha votado antes
-        for (Person person : people) {
-            if (person.getId() == p.getId() && person.hasVoted()) {
-                return true;
-            }
-        } */
-        return false;
-    }
+    private boolean hasVotedBefore(Integer ID) {
+        return IDVotes.contains(ID);
+    } 
 }
