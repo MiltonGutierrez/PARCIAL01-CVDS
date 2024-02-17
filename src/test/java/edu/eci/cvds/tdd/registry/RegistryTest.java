@@ -1,5 +1,4 @@
 package edu.eci.cvds.tdd.registry;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -9,39 +8,59 @@ public class RegistryTest {
     private Registry registry = new Registry();
 
     @Test
+    public void testValidPersonRegistration() {
+        // Persona viva y edad válida: 17 < edad < 135
+        Person person = new Person("Jeitson", 13579, 30, Gender.MALE, true); 
+        RegisterResult result = registry.registerVoter(person);
+        assertEquals(RegisterResult.VALID, result);
+    }
+
+    @Test
     public void testDeadPersonRegistration() {
-        Person person = new Person("Sotsa", 12345, 25, Gender.MALE, false); // Persona muerta
+        // Persona muerta
+        Person person = new Person("Sotsa", 12345, 25, Gender.MALE, false); 
         RegisterResult result = registry.registerVoter(person);
         assertEquals(RegisterResult.DEAD, result);
     }
 
     @Test
     public void testUnderagePersonRegistration() {
-        Person person = new Person("Milton", 54321, 15, Gender.MALErue); // Persona viva y menor de edad
+        // Persona viva y menor de edad
+        Person person = new Person("Milton", 54321, 17, Gender.MALE, true); 
         RegisterResult result = registry.registerVoter(person);
         assertEquals(RegisterResult.UNDERAGE, result);
     }
 
     @Test
-    public void testInvalidAgePersonRegistration() {
-        Person person = new Person("Mutsia", 67890, -5, Gender.MALE, true); // Edad inválida
+    public void testInvalidAgePersonRegistration1() {
+        // Edad invalida:  edad < 0
+        Person person = new Person("Mutsia", 67890, -5, Gender.MALE, true); 
         RegisterResult result = registry.registerVoter(person);
+        assertEquals(RegisterResult.INVALID_AGE, result);
+        // Edad invalida: edad < 135
+        person.setAge(135);
+        result = registry.registerVoter(person);
+        assertEquals(RegisterResult.INVALID_AGE, result);
+        // Edad invalida: edad < 135
+        person.setAge(200);
+        result = registry.registerVoter(person);
         assertEquals(RegisterResult.INVALID_AGE, result);
     }
 
-    @Test
-    public void testValidPersonRegistration() {
-        Person person = new Person("Jeitson", 13579, 30, Gender.MALE true); // Persona viva y edad válida
-        RegisterResult result = registry.registerVoter(person);
-        assertEquals(RegisterResult.VALID, result);
-    }
 
     @Test
     public void testDuplicatedPersonRegistration() {
-        Person person1 = new Person("Carl", 24680, 40, Gender.MALE, true); // Persona viva
-        registry.registerVoter(person1); // Registrando a la persona por primera vez
-        Person person2 = new Person("Carl", 24680, 40, Gender.MALE, true); // Persona viva, pero intentando registrarla nuevamente
-        RegisterResult result = registry.registerVoter(person2);
+        // Persona con datos validos
+        Person person1 = new Person("Carl", 24680, 40, Gender.MALE, true);
+        // Registrando a la persona por primera vez
+        RegisterResult result = registry.registerVoter(person1);
+        assertEquals(RegisterResult.VALID, result);
+        // Crear una persona con el mismo ID no debe permitir el voto
+        Person person2 = new Person("Robert", 24680, 41, Gender.MALE, true); 
+        result = registry.registerVoter(person2);
+        assertEquals(RegisterResult.DUPLICATED, result);
+        // Intentar registrar un voto de una persona que ya voto debe ser invalido.
+        result = registry.registerVoter(person1);
         assertEquals(RegisterResult.DUPLICATED, result);
     }
 }

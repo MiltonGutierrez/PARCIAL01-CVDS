@@ -1,3 +1,5 @@
+package edu.eci.cvds.tdd.registry;
+
 import java.util.ArrayList;
 
 public class Registry {
@@ -31,19 +33,19 @@ public class Registry {
 
         // Registrar a la persona y marcarla como que ya ha votado
         people.add(p);
-        p.setHasVoted(true);
+        //p.setHasVoted(true);
 
         // Retornar que el registro fue válido
         return RegisterResult.VALID;
     }
 
     private boolean hasVotedBefore(Person p) {
-        // Verificar si la persona ya está en la lista y ha votado antes
+        /*Verificar si la persona ya está en la lista y ha votado antes
         for (Person person : people) {
             if (person.getId() == p.getId() && person.hasVoted()) {
                 return true;
             }
-        }
+        } */
         return false;
     }
 }
