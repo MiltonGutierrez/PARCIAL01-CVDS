@@ -15,6 +15,7 @@
 # Configuración de Visual Studio Code
 .vscode/
 
-# Carpeta no necesaria
+# Directorios y archivos no necesarios
 target/
+*.jar
 
