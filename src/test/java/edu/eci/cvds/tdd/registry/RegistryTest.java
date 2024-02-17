@@ -29,6 +29,10 @@ public class RegistryTest {
         Person person = new Person("Milton", 54321, 17, Gender.MALE, true); 
         RegisterResult result = registry.registerVoter(person);
         assertEquals(RegisterResult.UNDERAGE, result);
+        // Persona viva y menor de edad
+        Person person1 = new Person("Baby", 983492, 0, Gender.FEMALE, true);
+        RegisterResult result1 = registry.registerVoter(person1);
+        assertEquals(RegisterResult.UNDERAGE, result1);
     }
 
     @Test
@@ -37,11 +41,11 @@ public class RegistryTest {
         Person person = new Person("Mutsia", 67890, -5, Gender.MALE, true); 
         RegisterResult result = registry.registerVoter(person);
         assertEquals(RegisterResult.INVALID_AGE, result);
-        // Edad invalida: edad < 135
+        // Edad invalida: edad >= 135
         person.setAge(135);
         result = registry.registerVoter(person);
         assertEquals(RegisterResult.INVALID_AGE, result);
-        // Edad invalida: edad < 135
+        // Edad invalida: edad >= 135
         person.setAge(200);
         result = registry.registerVoter(person);
         assertEquals(RegisterResult.INVALID_AGE, result);

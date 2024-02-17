@@ -6,37 +6,53 @@ public class Registry {
 
     private HashSet<Integer> IDVotes;
 
-    public Registry(){
+    /**
+     * Constructor method for the Registry class. Initializes the HashSet to store voter IDs.
+     */
+    public Registry() {
         IDVotes = new HashSet<>();
     }
 
+    /**
+     * Registers a voter based on the provided Person object.
+     * 
+     * @param p The Person object representing the voter.
+     * @return A RegisterResult indicating the result of the registration process.
+     */
     public RegisterResult registerVoter(Person p) {
-        // Verificar si la persona ya ha votado antes
+        // Check if the person has voted before
         if (hasVotedBefore(p.getId())) {
             return RegisterResult.DUPLICATED;
         }
 
-        // Verificar si la persona está viva
+        // Check if the person is alive
         if (!p.isAlive()) {
             return RegisterResult.DEAD;
         }
 
-        // Verificar si la persona es menor de edad
+        // Check if the person is underage
         if (p.getAge() < 18 && p.getAge() >= 0) {
             return RegisterResult.UNDERAGE;
         }
 
-        // Verificar si la edad de la persona es inválida
-        if (p.getAge() < 0 | p.getAge() >= 135) {
+        // Check if the age of the person is invalid
+        if (p.getAge() < 0 || p.getAge() >= 135) {
             return RegisterResult.INVALID_AGE;
         }
 
+        // Add the person's ID to the set of voted IDs
         IDVotes.add(p.getId());
 
-        // Retornar que el registro fue válido
+        // Return that the registration was valid
         return RegisterResult.VALID;
     }
 
+    /**
+     * Checks if a person with the given ID has voted before.
+     * 
+     * @param ID The ID of the person to check.
+     * @return true if the person has voted before, false otherwise.
+     */
     private boolean hasVotedBefore(Integer ID) {
         return IDVotes.contains(ID);
     } 
