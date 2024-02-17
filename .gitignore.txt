@@ -15,4 +15,6 @@
 # Configuración de Visual Studio Code
 .vscode/
 
+# Carpeta no necesaria
+target/
 
