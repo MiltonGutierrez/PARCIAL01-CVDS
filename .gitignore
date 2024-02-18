@@ -17,5 +17,5 @@
 
 # Directorios y archivos no necesarios
 target/
-*.jar
+
 
